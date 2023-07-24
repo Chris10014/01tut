@@ -1,23 +1,17 @@
 import React from 'react'
 
-const HeaderComponent = () => {
-  const headerStyle = { 
-      backgroundColor: "mediumblue",
-      color: "#fff"
-  };
+const HeaderComponent = ({ title }) => {
   
   return (
-    // HeaderComponent with inline style attached
-    // Alternative: use headerStyle constant instead { ... }
-    <header 
-    // style={{ 
-    //   backgroundColor: "royalblue",
-    //   color: "#fff"
-    //  }}
-     >
-        <h1>Groceries List</h1>
+    <header>
+        <h1>{title}</h1>
     </header>
   )
+}
+
+//Set default props used when the expected prop isn't present
+HeaderComponent.defaultProps = {
+  title: "Default Title"
 }
 
 export default HeaderComponent
