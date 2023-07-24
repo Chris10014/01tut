@@ -1,29 +1,34 @@
+import { useState } from "react";
+
 const ContentComponent = () => {
+
+  const [name, setName] = useState("Christoph"); //default value for the state in ()
+  const [count, setCount] = useState(0);
 
     const handleNameChange = () => {
         const names = ["Christoph", "Thomas", "Kerstin"];
         const int = Math.floor(Math.random() * 3);
-        return names[int];
+        setName(names[int]); //handleNameChange() now sets the state of name
     }
 
     const handleClick = () => {
-      console.log("You clicked it.")
+      setCount(count + 1)
+      //the state isn't changed within a function
+      //count stays like it was passes into the function althought setCount was called.
+      //The change occurs in the next iteration.
+      console.log(count)
     }
 
-    const handleClick2 = (name) => {
-      console.log(`${name} was clicked.`)
-    }
-
-    const handleClick3 = (e) => {
-      console.log(e.target.innerText)
+    const handleClick2 = () => {
+      console.log(count)
     }
 
   return (
     <main>
-      <p onDoubleClick={handleClick}>Hello {handleNameChange()}!</p>
-      <button onClick={handleClick}>Click it 1</button> {/* Adding an easy function */}
-      <button onClick={() => handleClick2("Christoph")}>Click it 2</button> {/* Adding an anonymous function with param */}
-      <button onClick={(e) => handleClick3(e)}>Click it 3</button>
+      <p onDoubleClick={handleClick}>Hello {name}!</p>
+      <button onClick={handleNameChange}>Change Name!</button> {/* Calls handleNameChange to change the state */}
+      <button onClick={handleClick}>Click it</button>
+      <button onClick={handleClick2}>Click it</button>
     </main>
   );
 }
