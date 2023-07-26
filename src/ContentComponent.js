@@ -1,4 +1,3 @@
-import { FaTrashAlt } from "react-icons/fa"; //Import fontawesome durectly with react-icons
 import ItemList from "./ItemListComponent";
 
 const ContentComponent = ({ items, handleCheck, handleDelete }) => {
