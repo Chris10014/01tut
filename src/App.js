@@ -1,49 +1,65 @@
-import HeaderComponent from './HeaderComponent';
-import ContentComponent from './ContentComponent';
-import FooterComponent from './FooterComponent';
+import Header from './HeaderComponent';
+import AddItem from './AddItemComponent';
+import SearchItem from "./SearchItemComponent";
+import Content from './ContentComponent';
+import Footer from './FooterComponent';
 import { useState } from 'react';
 
-function App() {
+const App = () => {
 
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      checked: false,
-      item: "One beer for me.",
-    },
-    {
-      id: 2,
-      checked: false,
-      item: "Item 2",
-    },
-    {
-      id: 3,
-      checked: false,
-      item: "Item 3",
-    },
-  ]);
+  const [items, setItems] = useState(JSON.parse(localStorage.getItem("shoppinglist")));
+
+  const [newItem, setNewItem] = useState("")
+  const [search, setSearch] = useState("")
+
+  const setAndSaveItems = (newItems) => {
+    setItems(newItems);
+    localStorage.setItem("shoppinglist", JSON.stringify(newItems));
+  }
+
+  const addItem = (item) => {
+    const id = items.length ? items[items.length - 1].id + 1 : 1;
+    const myNewItem = { id, checked: false, item };
+    const listItems = [ ...items, myNewItem ];
+    setAndSaveItems(listItems);
+  }
 
    const handleCheck = (id) => {
      const listItems = items.map((item) => (item.id === id ? { ...item, checked: !item.checked } : item));
-     setItems(listItems);
-     localStorage.setItem("shoppinglist", JSON.stringify(listItems));
+     setAndSaveItems(listItems);
    };
 
    const handleDelete = (id) => {
      const listItems = items.filter((item) => item.id !== id); //Creates a new object only with item where item.id !== id
-     setItems(listItems);
-     localStorage.setItem("shoppinglist", JSON.stringify(listItems));
+     setAndSaveItems(listItems);
    };
+
+   const handleSubmit = (e) => {
+    e.preventDefault();
+    if(!newItem) return;
+    console.log(newItem)
+    addItem(newItem)
+    setNewItem("");
+   }
 
   return (
     <div className="App">
-      <HeaderComponent title="Groceries List" />
-      <ContentComponent
-          items={items}
+      <Header title="Groceries List" />
+      <AddItem
+        newItem={newItem}
+        setNewItem={setNewItem}
+        handleSubmit={handleSubmit}
+      />
+      <SearchItem
+        search={search}
+        setSearch={setSearch}
+      />
+      <Content
+          items={items.filter(item => ((item.item).toLowerCase()).includes(search.toLowerCase()))}
           handleCheck={handleCheck}
           handleDelete={handleDelete} 
       />
-      <FooterComponent length={items.length} />
+      <Footer length={items.length} />
     </div>
   );
 }

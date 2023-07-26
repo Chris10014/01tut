@@ -1,6 +1,6 @@
 import LineItem from "./LineItemComponent";
 
-function ItemListComponent({ items, handleCheck, handleDelete }) {
+const  ItemListComponent = ({ items, handleCheck, handleDelete }) => {
   return (
     <ul>
       {items.map((item) => (
