@@ -3,35 +3,41 @@ import AddItem from './AddItemComponent';
 import SearchItem from "./SearchItemComponent";
 import Content from './ContentComponent';
 import Footer from './FooterComponent';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const App = () => {
 
-  const [items, setItems] = useState(JSON.parse(localStorage.getItem("shoppinglist")));
+  const [items, setItems] = useState(JSON.parse(localStorage.getItem("shoppinglist")) || []); //OR Verknüpfung mit leerem Array wird benötigt, falls die shoppinglist bei Start icht existiert. Das würde zu einem Fehler führen.
 
   const [newItem, setNewItem] = useState("")
   const [search, setSearch] = useState("")
 
-  const setAndSaveItems = (newItems) => {
-    setItems(newItems);
-    localStorage.setItem("shoppinglist", JSON.stringify(newItems));
-  }
+  useEffect(() => {
+    console.log("render")
+    localStorage.setItem("shoppinglist", JSON.stringify(items));
+  }, [items]) //items als Dependency triggert die Ausführung von useEffect nur bei Änderungen am state items
+
+  //Wird nicht mehr benötigt, da shoppinglist in useEffect gespeichert wird wenn mit setItems() der State geändert wird
+  // const setAndSaveItems = (newItems) => {
+  //   setItems(newItems);
+  //   localStorage.setItem("shoppinglist", JSON.stringify(newItems));    
+  // }
 
   const addItem = (item) => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
     const myNewItem = { id, checked: false, item };
     const listItems = [ ...items, myNewItem ];
-    setAndSaveItems(listItems);
+    setItems(listItems);
   }
 
    const handleCheck = (id) => {
      const listItems = items.map((item) => (item.id === id ? { ...item, checked: !item.checked } : item));
-     setAndSaveItems(listItems);
+     setItems(listItems);
    };
 
    const handleDelete = (id) => {
      const listItems = items.filter((item) => item.id !== id); //Creates a new object only with item where item.id !== id
-     setAndSaveItems(listItems);
+     setItems(listItems);
    };
 
    const handleSubmit = (e) => {
