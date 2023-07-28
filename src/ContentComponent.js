@@ -3,7 +3,7 @@ import ItemList from "./ItemListComponent";
 const ContentComponent = ({ items, handleCheck, handleDelete }) => {
   
   return (
-    <main>
+    <>
       {items.length ? (
       <ItemList
         items={items}
@@ -13,7 +13,7 @@ const ContentComponent = ({ items, handleCheck, handleDelete }) => {
       ) : (
         <p style={{ marginTop: "2rem" }}>Deine Liste ist leer</p>
       )}
-    </main>
+    </>
   );
 }
 
