@@ -1,3 +1,8 @@
+import logo from './logo.svg';
+import './App.css';
+import Multiform from "./components/Multiform";
+
+function App() {
 import Header from './HeaderComponent';
 import AddItem from './AddItemComponent';
 import SearchItem from "./SearchItemComponent";
@@ -92,6 +97,21 @@ const App = () => {
 
   return (
     <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to see the change.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+      <Multiform />
       <Header title="Groceries List" />
       <AddItem
         newItem={newItem}
